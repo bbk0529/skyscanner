@@ -1,0 +1,24 @@
+<h1>SKYSCANNER</h1>
+
+
+<%=form_tag "/scan/search", method: :get do %>
+<%=select_tag "departure", "
+    <option selected>
+      SEOUL
+    </option>
+    <option>
+      BUSAN
+    </option>"
+    .html_safe %>
+
+<%=select_tag "arrival", "
+    <option selected>
+      BANGKOK
+    </option>
+    <option>
+      HANOI
+    </option>"
+    .html_safe %>
+  <%=submit_tag %>
+<% end %>
+ddd
