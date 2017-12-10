@@ -1,24 +1,108 @@
 <h1>SKYSCANNER</h1>
-
+<table class="table">
 
 <%=form_tag "/scan/search", method: :get do %>
-<%=select_tag "departure", "
-    <option selected>
-      SEOUL
+<tr>
+  <th>출발지</th>
+  <th>도착지</th>
+  <th>검색시작월</th>
+  <th>검색종료월</th>
+  <th>체류최소일</th>
+  <th>체류최대일</th>
+  <th>예산 </th>
+</tr>
+<tr>
+  <td>
+  <select name="departure">
+    <% @airport.each do |row| %>
+      <option value="<%=row[0]%>">
+        <%=row[1]%>
+      </option>
+      <% end %>
+  </select>
+</td>
+<td>
+<select name="arrival">
+  <% @airport.each do |row| %>
+    <option value="<%=row[0]%>">
+      <%=row[1]%>
     </option>
-    <option>
-      BUSAN
-    </option>"
-    .html_safe %>
+    <% end %>
+</select>
+</td>
+<td>
+  <select name="s_month">
+    <option value="2017-12">
+    2017년 12월
+    </option>
+    <option value="2018-01">
+    2018년 1월
+    </option>
+    <option value="2018-02">
+    2018년 2월
+    </option>
+    <option value="2018-03">
+    2018년 3월
+    </option>
+    <option value="2018-04">
+    2018년 4월
+    </option>
+    <option value="2018-05">
+    2018년 5월
+    </option>
+    <option value="2018-06">
+    2018년 6월
+    </option>
+  </select>
+</td>
+<td>
+  <select name="e_month">
+    <option value="2017-12">
+    2017년 12월
+    </option>
+    <option value="2018-01">
+    2018년 1월
+    </option>
+    <option value="2018-02">
+    2018년 2월
+    </option>
+    <option value="2018-03">
+    2018년 3월
+    </option>
+    <option value="2018-04">
+    2018년 4월
+    </option>
+    <option value="2018-05">
+    2018년 5월
+    </option>
+    <option value="2018-06">
+    2018년 6월
+    </option>
+  </select>
+</td>
 
-<%=select_tag "arrival", "
-    <option selected>
-      BANGKOK
-    </option>
-    <option>
-      HANOI
-    </option>"
-    .html_safe %>
-  <%=submit_tag %>
+<td>
+  <select name="period_start">
+    <% (1..30).each do |day| %>
+      <option>
+        <%=day%>
+      </option>
+    <% end %>
+  </select>
+</td>
+<td>
+  <select name="period_finish">
+    <% (1..30).each do |day| %>
+      <option>
+        <%=day%>
+      </option>
+    <% end %>
+  </select>
+</td>
+<td>
+  <input type="text" name="budget">
+</td>
+  <%=submit_tag "SEARCH" %>
+
 <% end %>
-ddd
+</table>

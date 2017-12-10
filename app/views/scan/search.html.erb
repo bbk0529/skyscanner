@@ -2,7 +2,32 @@
 
 <%=@departure%> 에 갈까요?
 <%=@arrival%> 에 갈까요?
+<table class="table">
+  <tr>
+    <th> 출발지  </th>
+    <th> 도착지  </th>
+    <th> 구분 </th>
+    <th> 출발일 </th>
+    <th> 도착일 </th>
+    <th> 체류기간 </th>
+    <th> 가격 </th>
+  </tr>
+<% @direct_all.each do |row| %>
+  <tr>
+  <% row.each do |col| %>
+    <td>
+      <%=col%>
+    </td>
+  <% end %>
+  </tr>
+<% end %>
 
-
-<%=@direct%>
-<%=@indirect%>
+<% @indirect_all.each do |row| %>
+  <tr>
+  <% row.each do |col| %>
+    <td>
+      <%=col%>
+    </td>
+  <% end %>
+  </tr>
+<% end %>

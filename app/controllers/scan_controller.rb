@@ -11,6 +11,12 @@ class ScanController < ApplicationController
 
   def index
     p "haha"
+    @airport=[]
+    CSV.foreach('airport.csv') do |row|
+        @airport << row
+        p row
+    end
+
   end
 
   def search
@@ -18,22 +24,23 @@ class ScanController < ApplicationController
 
     @departure = params[:departure]
     @arrival = params[:arrival]
+    @s_month= params[:s_month]
+    @e_month= params[:e_month]
 
-
-    s_date='2017-12-16'
-    e_date='2017-12-31'
-    period_start=8
-    period_finish=15
-    limit=1000000
+    period_start = params[:period_start].to_i
+    period_finish = params[:period_finish].to_i
+    budget = params[:budget].to_i
     search_start=1
     search_end=30
 
     headers = {
         "user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
     }
-    url = "https://www.skyscanner.co.kr/dataservices/browse/v3/mvweb/KR/KRW/ko-KR/calendar/ICN/BKK/2017-12/2017-12/?profile=minimalmonthviewgrid&abvariant=GDT1606_ShelfShuffleOrSort:b|GDT1606_ShelfShuffleOrSort_V5:b|RTS2189_BrowseTrafficShift:b|RTS2189_BrowseTrafficShift_V8:b|rts_mbmd_anylegs:b|rts_mbmd_anylegs_V5:b|GDT1693_MonthViewSpringClean:b|GDT1693_MonthViewSpringClean_V13:b|GDT2195_RolloutMicroserviceIntegration:b|GDT2195_RolloutMicroserviceIntegration_V4:b"
+    url = "https://www.skyscanner.co.kr/dataservices/browse/v3/mvweb/KR/KRW/ko-KR/calendar/#{@departure}/#{@arrival}/#{@s_month}/#{@e_month}/?profile=minimalmonthviewgrid&abvariant=GDT1606_ShelfShuffleOrSort:b|GDT1606_ShelfShuffleOrSort_V5:b|RTS2189_BrowseTrafficShift:b|RTS2189_BrowseTrafficShift_V8:b|rts_mbmd_anylegs:b|rts_mbmd_anylegs_V5:b|GDT1693_MonthViewSpringClean:b|GDT1693_MonthViewSpringClean_V13:b|GDT2195_RolloutMicroserviceIntegration:b|GDT2195_RolloutMicroserviceIntegration_V4:b"
+    p url
     result=JSON.parse(RestClient.get(url, headers))
-    go(@departure,@arrival,search_start, search_end, period_start, period_finish, limit, result)
+    p result
+    go(@departure,@arrival,search_start, search_end, period_start, period_finish, budget, result)
   end
 
   def go(dk,k,search_start, search_end, period_start, period_finish, limit, result)
@@ -66,7 +73,8 @@ class ScanController < ApplicationController
   			end
 
       end
-
+      @direct_all = array1
+      @indirect_all = array2
       @direct=array1[min1.index(min1.min)] if min1.size!=0
       @indirect=array2[min2.index(min2.min)] if min2.size!=0
     end
